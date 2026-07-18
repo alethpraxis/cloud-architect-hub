@@ -9,38 +9,214 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WellArchitectedRouteImport } from './routes/well-architected'
+import { Route as VpcRouteImport } from './routes/vpc'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as LearnRouteImport } from './routes/learn'
+import { Route as InterviewRouteImport } from './routes/interview'
+import { Route as CostRouteImport } from './routes/cost'
+import { Route as ArchitectRouteImport } from './routes/architect'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIdRouteImport } from './routes/services.$id'
 
+const WellArchitectedRoute = WellArchitectedRouteImport.update({
+  id: '/well-architected',
+  path: '/well-architected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VpcRoute = VpcRouteImport.update({
+  id: '/vpc',
+  path: '/vpc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InterviewRoute = InterviewRouteImport.update({
+  id: '/interview',
+  path: '/interview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CostRoute = CostRouteImport.update({
+  id: '/cost',
+  path: '/cost',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArchitectRoute = ArchitectRouteImport.update({
+  id: '/architect',
+  path: '/architect',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIdRoute = ServicesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ServicesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
+  '/interview': typeof InterviewRoute
+  '/learn': typeof LearnRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
+  '/interview': typeof InterviewRoute
+  '/learn': typeof LearnRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
+  '/interview': typeof InterviewRoute
+  '/learn': typeof LearnRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/interview'
+    | '/learn'
+    | '/services'
+    | '/sitemap.xml'
+    | '/vpc'
+    | '/well-architected'
+    | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/interview'
+    | '/learn'
+    | '/services'
+    | '/sitemap.xml'
+    | '/vpc'
+    | '/well-architected'
+    | '/services/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/interview'
+    | '/learn'
+    | '/services'
+    | '/sitemap.xml'
+    | '/vpc'
+    | '/well-architected'
+    | '/services/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArchitectRoute: typeof ArchitectRoute
+  CostRoute: typeof CostRoute
+  InterviewRoute: typeof InterviewRoute
+  LearnRoute: typeof LearnRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  VpcRoute: typeof VpcRoute
+  WellArchitectedRoute: typeof WellArchitectedRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/well-architected': {
+      id: '/well-architected'
+      path: '/well-architected'
+      fullPath: '/well-architected'
+      preLoaderRoute: typeof WellArchitectedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vpc': {
+      id: '/vpc'
+      path: '/vpc'
+      fullPath: '/vpc'
+      preLoaderRoute: typeof VpcRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/interview': {
+      id: '/interview'
+      path: '/interview'
+      fullPath: '/interview'
+      preLoaderRoute: typeof InterviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cost': {
+      id: '/cost'
+      path: '/cost'
+      fullPath: '/cost'
+      preLoaderRoute: typeof CostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/architect': {
+      id: '/architect'
+      path: '/architect'
+      fullPath: '/architect'
+      preLoaderRoute: typeof ArchitectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +224,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/$id': {
+      id: '/services/$id'
+      path: '/$id'
+      fullPath: '/services/$id'
+      preLoaderRoute: typeof ServicesIdRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
 
+interface ServicesRouteChildren {
+  ServicesIdRoute: typeof ServicesIdRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesIdRoute: ServicesIdRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArchitectRoute: ArchitectRoute,
+  CostRoute: CostRoute,
+  InterviewRoute: InterviewRoute,
+  LearnRoute: LearnRoute,
+  ServicesRoute: ServicesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  VpcRoute: VpcRoute,
+  WellArchitectedRoute: WellArchitectedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
