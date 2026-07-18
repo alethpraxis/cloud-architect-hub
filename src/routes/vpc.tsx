@@ -28,8 +28,6 @@ const details: Record<NodeKey, { title: string; body: string }> = {
   sg: { title: "Security Groups", body: "Stateful, instance-level. ALB-SG allows 443 from 0.0.0.0/0. App-SG allows 8080 from ALB-SG. DB-SG allows 5432 from App-SG." },
 };
 
-export default function _() {} // silence linter for empty exports if any
-
 function VpcPage() {
   const [active, setActive] = useState<NodeKey>("igw");
 
