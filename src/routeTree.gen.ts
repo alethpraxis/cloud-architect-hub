@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VpcRouteImport } from './routes/vpc'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as CostRouteImport } from './routes/cost'
 import { Route as ArchitectRouteImport } from './routes/architect'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
@@ -23,6 +24,11 @@ const VpcRoute = VpcRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CostRoute = CostRouteImport.update({
+  id: '/cost',
+  path: '/cost',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ArchitectRoute = ArchitectRouteImport.update({
@@ -44,6 +50,7 @@ const ServicesIdRoute = ServicesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
   '/services/$id': typeof ServicesIdRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
   '/services/$id': typeof ServicesIdRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
+  '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
   '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/architect' | '/services' | '/vpc' | '/services/$id'
+  fullPaths:
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/services'
+    | '/vpc'
+    | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/architect' | '/services' | '/vpc' | '/services/$id'
-  id: '__root__' | '/' | '/architect' | '/services' | '/vpc' | '/services/$id'
+  to: '/' | '/architect' | '/cost' | '/services' | '/vpc' | '/services/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/services'
+    | '/vpc'
+    | '/services/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArchitectRoute: typeof ArchitectRoute
+  CostRoute: typeof CostRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   VpcRoute: typeof VpcRoute
 }
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cost': {
+      id: '/cost'
+      path: '/cost'
+      fullPath: '/cost'
+      preLoaderRoute: typeof CostRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/architect': {
@@ -133,6 +163,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArchitectRoute: ArchitectRoute,
+  CostRoute: CostRoute,
   ServicesRoute: ServicesRouteWithChildren,
   VpcRoute: VpcRoute,
 }
