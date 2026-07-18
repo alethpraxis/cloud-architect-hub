@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import * as Icons from "lucide-react";
 import { ArrowLeft, CheckCircle2, DollarSign, HelpCircle, Sparkles } from "lucide-react";
-import { services } from "@/data/services";
+import { services, type AwsService } from "@/data/services";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/services/$id")({
@@ -33,13 +33,13 @@ export const Route = createFileRoute("/services/$id")({
 });
 
 function ServiceDetail() {
-  const { svc } = Route.useLoaderData();
+  const { svc } = Route.useLoaderData() as { svc: AwsService };
   const Icon = ((Icons as unknown as Record<string, Icons.LucideIcon>)[svc.icon] ??
     Icons.Boxes) as Icons.LucideIcon;
 
   const related = svc.related
-    .map((id) => services.find((s) => s.id === id))
-    .filter(Boolean) as typeof services;
+    .map((id: string) => services.find((s) => s.id === id))
+    .filter((s): s is AwsService => !!s);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">

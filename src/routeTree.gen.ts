@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIdRouteImport } from './routes/services.$id'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -22,31 +23,39 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIdRoute = ServicesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ServicesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
+  '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/services'
+  fullPaths: '/' | '/services' | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/services'
-  id: '__root__' | '/' | '/services'
+  to: '/' | '/services' | '/services/$id'
+  id: '__root__' | '/' | '/services' | '/services/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +74,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/$id': {
+      id: '/services/$id'
+      path: '/$id'
+      fullPath: '/services/$id'
+      preLoaderRoute: typeof ServicesIdRouteImport
+      parentRoute: typeof ServicesRoute
+    }
   }
 }
 
+interface ServicesRouteChildren {
+  ServicesIdRoute: typeof ServicesIdRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesIdRoute: ServicesIdRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
