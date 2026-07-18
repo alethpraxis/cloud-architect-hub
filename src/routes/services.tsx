@@ -77,7 +77,7 @@ function ServicesPage() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((s) => {
-          const Icon = (Icons as Record<string, Icons.LucideIcon>)[s.icon] ?? Icons.Boxes;
+          const Icon = ((Icons as unknown as Record<string, Icons.LucideIcon>)[s.icon] ?? Icons.Boxes) as Icons.LucideIcon;
           return (
             <Link
               key={s.id}
