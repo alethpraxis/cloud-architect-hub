@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WellArchitectedRouteImport } from './routes/well-architected'
 import { Route as VpcRouteImport } from './routes/vpc'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as CostRouteImport } from './routes/cost'
@@ -16,6 +17,11 @@ import { Route as ArchitectRouteImport } from './routes/architect'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIdRouteImport } from './routes/services.$id'
 
+const WellArchitectedRoute = WellArchitectedRouteImport.update({
+  id: '/well-architected',
+  path: '/well-architected',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VpcRoute = VpcRouteImport.update({
   id: '/vpc',
   path: '/vpc',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
   '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
   '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/cost': typeof CostRoute
   '/services': typeof ServicesRouteWithChildren
   '/vpc': typeof VpcRoute
+  '/well-architected': typeof WellArchitectedRoute
   '/services/$id': typeof ServicesIdRoute
 }
 export interface FileRouteTypes {
@@ -80,9 +89,17 @@ export interface FileRouteTypes {
     | '/cost'
     | '/services'
     | '/vpc'
+    | '/well-architected'
     | '/services/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/architect' | '/cost' | '/services' | '/vpc' | '/services/$id'
+  to:
+    | '/'
+    | '/architect'
+    | '/cost'
+    | '/services'
+    | '/vpc'
+    | '/well-architected'
+    | '/services/$id'
   id:
     | '__root__'
     | '/'
@@ -90,6 +107,7 @@ export interface FileRouteTypes {
     | '/cost'
     | '/services'
     | '/vpc'
+    | '/well-architected'
     | '/services/$id'
   fileRoutesById: FileRoutesById
 }
@@ -99,10 +117,18 @@ export interface RootRouteChildren {
   CostRoute: typeof CostRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   VpcRoute: typeof VpcRoute
+  WellArchitectedRoute: typeof WellArchitectedRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/well-architected': {
+      id: '/well-architected'
+      path: '/well-architected'
+      fullPath: '/well-architected'
+      preLoaderRoute: typeof WellArchitectedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vpc': {
       id: '/vpc'
       path: '/vpc'
@@ -166,6 +192,7 @@ const rootRouteChildren: RootRouteChildren = {
   CostRoute: CostRoute,
   ServicesRoute: ServicesRouteWithChildren,
   VpcRoute: VpcRoute,
+  WellArchitectedRoute: WellArchitectedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
